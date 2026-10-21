@@ -1,0 +1,22 @@
+{
+  "name": "documind",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local-first PDF and knowledge Q&A assistant with streaming answers and citations.",
+  "type": "module",
+  "scripts": {
+    "start": "node --import ./load-env.mjs server.mjs",
+    "dev": "node --import ./load-env.mjs --watch server.mjs",
+    "db:migrate": "node --import ./load-env.mjs scripts/migrate.mjs",
+    "db:import-local": "node --import ./load-env.mjs scripts/import-legacy.mjs"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.80",
+    "pdfjs-dist": "5.4.296",
+    "pg": "^8.16.3",
+    "tesseract.js": "^6.0.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

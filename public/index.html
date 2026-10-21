@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f4">
+  <meta name="description" content="Ask questions about your documents and get grounded answers with citations.">
+  <title>DocuMind — your knowledge, in conversation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/auth.css">
+</head>
+<body>
+  <section id="auth-screen" class="auth-screen" hidden>
+    <form id="auth-form" class="auth-card">
+      <span class="brand-mark auth-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.7 3.8h7.1l4.1 4.1v11.8a1.4 1.4 0 0 1-1.4 1.4H6.7a1.4 1.4 0 0 1-1.4-1.4V5.2a1.4 1.4 0 0 1 1.4-1.4Z"/><path d="M13.5 4v4.3h4.1M8.5 12h6.8M8.5 15.3h6.8"/></svg></span>
+      <p class="eyebrow">YOUR KNOWLEDGE, IN CONVERSATION</p>
+      <h1 id="auth-title">Welcome to DocuMind</h1>
+      <p id="auth-description">Sign in to your private document library.</p>
+      <label>Email address<input id="auth-email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com"></label>
+      <label>Password<input id="auth-password" type="password" autocomplete="current-password" required minlength="10" maxlength="200" placeholder="At least 10 characters"></label>
+      <p id="auth-error" class="auth-error" aria-live="polite"></p>
+      <button id="auth-submit" class="auth-submit" type="submit">Sign in</button>
+      <button id="auth-toggle" class="auth-toggle" type="button">New here? Create an account</button>
+    </form>
+  </section>
+  <div class="app-shell" hidden>
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="DocuMind home">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.7 3.8h7.1l4.1 4.1v11.8a1.4 1.4 0 0 1-1.4 1.4H6.7a1.4 1.4 0 0 1-1.4-1.4V5.2a1.4 1.4 0 0 1 1.4-1.4Z"/><path d="M13.5 4v4.3h4.1M8.5 12h6.8M8.5 15.3h6.8"/></svg></span>
+        <span>DocuMind</span>
+      </a>
+      <button class="workspace-picker" type="button"><span class="workspace-avatar">S</span><span class="workspace-copy"><strong>My workspace</strong><small>Personal library</small></span><span class="chevrons">⌄</span></button>
+
+      <div class="section-heading"><span>Your library</span><span id="doc-count" class="count-pill">0</span></div>
+      <div id="document-list" class="document-list"></div>
+      <label id="dropzone" class="dropzone" for="file-input">
+        <input id="file-input" type="file" accept=".pdf,.txt,.md,application/pdf,text/plain,text/markdown" multiple>
+        <span class="upload-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14.5v4A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-4"/></svg></span>
+        <strong>Drop files to upload</strong>
+        <span>or <span class="browse-link">browse</span> · PDF, TXT, MD</span>
+      </label>
+      <div id="upload-status" class="upload-status" aria-live="polite"></div>
+
+      <div class="sidebar-bottom">
+        <div class="privacy-note"><span class="privacy-icon">◈</span><span><strong>Your documents stay private</strong><small>Stored on this device</small></span></div>
+        <div class="profile-row"><span class="profile-avatar">S</span><span id="profile-name" class="profile-name">My account</span><button id="logout-button" class="more-button" aria-label="Sign out" title="Sign out">↪</button></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="breadcrumbs"><span class="crumb-muted">Workspace</span><span class="crumb-slash">/</span><strong>Ask your documents</strong></div>
+        <div class="topbar-right"><span class="local-status"><span class="status-dot"></span>Local workspace</span><button class="help-button" aria-label="Help">?</button></div>
+      </header>
+
+      <section id="chat-view" class="chat-view">
+        <div id="welcome" class="welcome-state">
+          <div class="welcome-orb"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 8h14l8 8v23H14a3 3 0 0 1-3-3V11a3 3 0 0 1 3-3Z"/><path d="M28 8v9h8M18 24h14M18 30h10"/><path class="spark" d="m36 27 1.5 3.5L41 32l-3.5 1.5L36 37l-1.5-3.5L31 32l3.5-1.5L36 27Z"/></svg></div>
+          <p class="eyebrow">YOUR KNOWLEDGE, IN CONVERSATION</p>
+          <h1>Make sense of<br><span>what you know.</span></h1>
+          <p class="welcome-description">Ask a question across your documents. Get clear answers, grounded in your sources.</p>
+          <div class="suggestion-grid">
+            <button class="suggestion-card" data-prompt="Give me a concise summary of the key ideas."><span class="suggestion-icon lavender">✳</span><span><strong>Summarize key ideas</strong><small>Get the big picture quickly</small></span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion-card" data-prompt="What are the most important details I should remember?"><span class="suggestion-icon peach">⌕</span><span><strong>Find the important details</strong><small>Surface what matters most</small></span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion-card" data-prompt="Compare the main concepts across my documents."><span class="suggestion-icon mint">⇄</span><span><strong>Compare concepts</strong><small>Connect ideas across files</small></span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion-card" data-prompt="Create five study questions from my documents."><span class="suggestion-icon blue">✎</span><span><strong>Make study questions</strong><small>Check what you understand</small></span><span class="suggestion-arrow">↗</span></button>
+          </div>
+          <div class="first-upload-hint"><span>↖</span> Start by adding a document to your library</div>
+        </div>
+        <div id="messages" class="messages" aria-live="polite"></div>
+      </section>
+
+      <footer class="composer-area">
+        <div id="selection-note" class="selection-note">Select one or more documents from your library to get started.</div>
+        <form id="chat-form" class="composer">
+          <textarea id="question-input" rows="1" maxlength="4000" placeholder="Ask anything about your documents…" aria-label="Your question"></textarea>
+          <div class="composer-tools"><span class="composer-hint"><kbd>↵</kbd> to send <span>·</span> <kbd>⇧ ↵</kbd> for a new line</span><button id="send-button" class="send-button" type="submit" aria-label="Send message"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14-7-5 14-2.5-6.5L5 12Z"/><path d="m11.5 12.5 7.5-7.5"/></svg></button></div>
+        </form>
+        <p class="disclaimer">Answers are generated by AI. Check the citations against your sources.</p>
+      </footer>
+    </main>
+  </div>
+  <div id="preview-overlay" class="preview-overlay" hidden>
+    <section class="preview-panel" role="dialog" aria-modal="true" aria-labelledby="preview-title">
+      <header class="preview-header"><div><span class="eyebrow">DOCUMENT PREVIEW</span><h2 id="preview-title">Document</h2></div><button id="close-preview" class="preview-close" aria-label="Close preview">×</button></header>
+      <iframe id="pdf-preview" title="PDF preview" hidden></iframe>
+      <pre id="text-preview" hidden></pre>
+    </section>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
